@@ -6,11 +6,11 @@ class Solution {
       sum = sum + (mat[i][i] + mat[i][n-1-i]);
        }
      if(n%2==0){
-         return sum ;
+         return sum;
      }
      else{
          return sum - mat[n/2][n/2];
      }
+     }
  
     }
-}
