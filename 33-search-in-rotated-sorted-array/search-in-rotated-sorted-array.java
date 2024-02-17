@@ -1,7 +1,6 @@
 class Solution {
     public int search(int[] nums, int target) {
-          
-        int pivot = findPivot(nums);
+         int pivot = findPivot(nums);
 
         // if you did not find a pivot, it means the array is not rotated
         if (pivot == -1) {
