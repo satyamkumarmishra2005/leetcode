@@ -1,6 +1,6 @@
 class Solution {
     public int peakIndexInMountainArray(int[] arr) {
-          int start = 0;
+        int start = 0;
          int end = arr.length-1;
 
          while(start < end){
@@ -22,5 +22,9 @@ class Solution {
       // and if we are saying that only one item is remaining , hence cuz of above line that is the best possible ans
        return start; // or end as both are equal
         }
+
+    
+
+        
 
     }
