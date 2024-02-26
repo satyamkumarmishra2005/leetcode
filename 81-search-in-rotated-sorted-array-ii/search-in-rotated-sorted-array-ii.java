@@ -14,16 +14,18 @@ class Solution {
                continue;
            }
 
-           if(nums[start]<=nums[mid]){
+          if(nums[start]<=nums[mid]){
                if(nums[start]<=target && target<=nums[mid]){
                    end = mid - 1;
                }
                else{
                    start = mid + 1;
                }
-           }
+       }
+           
            else{
-               if(nums[mid+1]<=target && target<=nums[end]){
+               if(nums[mid+1]<=target && target<=nums[end]){ // right hand side is sorted  we will dismiss left hand side
+            
                    start = mid + 1;
                }
                else{
