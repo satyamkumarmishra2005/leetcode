@@ -1,9 +1,6 @@
 class Solution {
     public String longestPalindrome(String str) {
-        
-  
-
-    if (str.length() <= 1)
+ if (str.length() <= 1)
       return str;
 
     String LPS = "";
