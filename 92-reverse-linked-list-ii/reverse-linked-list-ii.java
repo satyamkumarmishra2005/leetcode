@@ -15,13 +15,12 @@ class Solution {
         ListNode leftprev = dummy;
         ListNode present = head;
 
-  for(int i =0 ; i<left-1 ; i++){
-  leftprev = leftprev.next;
-  present = present.next;
-    }
-
-    ListNode prev = null;
-    ListNode sequenceHead = present;
+        for(int i = 0 ; i< left-1 ; i++){
+            leftprev = leftprev.next;
+            present = present.next;
+        }
+        ListNode prev = null;
+        ListNode sequenceHead = present;
     for(int i =0 ; i<= right-left ; i++){
         ListNode next = present.next;
         present.next = prev;
@@ -29,7 +28,8 @@ class Solution {
         present = next;
     }
     leftprev.next = prev;
-  sequenceHead.next = present;
-  return dummy.next;
-    }
+sequenceHead.next = present;
+return dummy.next ;
+        
+        }
 }
