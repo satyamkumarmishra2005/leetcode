@@ -23,7 +23,11 @@ class Solution {
     //     }
     //     return 0 ;
 
-    // Optimal 
+    // Optimal approach
+
+    // Time complexity =  O(1)
+
+    // Compare any 2 edges and return the common Node
 
     int [] pair1 = edges[0] ;// v1,v3
     int [] pair2 = edges[1] ;// v3,v1
