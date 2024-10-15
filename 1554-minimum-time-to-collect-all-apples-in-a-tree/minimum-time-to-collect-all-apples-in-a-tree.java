@@ -9,7 +9,7 @@ class Solution {
 
                 int timetakenBychild = dfs(neighbour , src , adjList , hasApple);
 
-                if(timetakenBychild > 0 || hasApple.get(neighbour)){
+                if(timetakenBychild > 0 || hasApple.get(neighbour)){ // If the current node has apple or its child has Aplle then calculate the time
                     totalTime += timetakenBychild + 2;
                 }
             }
