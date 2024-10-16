@@ -61,73 +61,144 @@
 //     }
 // }
 
-class Pair {
-    int row;
-    int col;
-    int time;
+// class Pair {
+//     int row;
+//     int col;
+//     int time;
 
-    public Pair(int r, int c, int t) {
-        row = r;
-        col = c;
-        time = t;
-    }
-}
+//     public Pair(int r, int c, int t) {
+//         row = r;
+//         col = c;
+//         time = t;
+//     }
+// }
+
+// class Solution {
+
+//     public int orangesRotting(int[][] grid) {
+//         int n = grid.length;
+//         int m = grid[0].length;
+//         int[][] vis = new int[n][m];
+//         Queue<Pair> queue = new LinkedList<>();
+
+//         // Initialize the queue with all rotten oranges
+//         for (int i = 0; i < n; i++) {
+//             for (int j = 0; j < m; j++) {
+//                 if (grid[i][j] == 2) {
+//                     vis[i][j] = 2;
+//                     queue.add(new Pair(i, j, 0));
+//                 } 
+//             }
+//         }
+
+//         int maxTime = 0;
+
+//         // Direction vectors for moving up, down, left, and right
+//         int[] dRow = {1, -1, 0, 0};
+//         int[] dCol = {0, 0, 1, -1};
+
+//         // Process the queue
+//         while (!queue.isEmpty()) {
+//             Pair p = queue.poll();
+//             int r = p.row;
+//             int c = p.col;
+//             int t = p.time;
+
+//             // Update the max time
+//             maxTime = Math.max(maxTime, t);
+
+//             // Spread the rot to adjacent fresh oranges
+//             for (int i = 0; i < 4; i++) {
+//                 int newRow = r + dRow[i];
+//                 int newCol = c + dCol[i];
+
+//                 if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && grid[newRow][newCol] == 1 && vis[newRow][newCol] == 0) {
+//                     vis[newRow][newCol] = 2;
+//                     queue.add(new Pair(newRow, newCol, t + 1));
+//                 }
+//             }
+//         }
+
+//         // Check if there's any fresh orange left
+//         for (int i = 0; i < n; i++) {
+//             for (int j = 0; j < m; j++) {
+//                 if (grid[i][j] == 1 && vis[i][j] != 2) {
+//                     return -1;
+//                 }
+//             }
+//         }
+
+//         return maxTime;
+//     }
+// }
 
 class Solution {
-
     public int orangesRotting(int[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
-        int[][] vis = new int[n][m];
-        Queue<Pair> queue = new LinkedList<>();
 
-        // Initialize the queue with all rotten oranges
+        int freshcount = 0;
+        Queue<int[]> queue = new LinkedList<>();
+
+        // Count fresh oranges and add rotten ones to the queue
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 2) {
-                    vis[i][j] = 2;
-                    queue.add(new Pair(i, j, 0));
-                } 
+                if (grid[i][j] == 1) {
+                    freshcount++;
+                } else if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});
+                }
             }
         }
 
-        int maxTime = 0;
+        if (freshcount == 0) {
+            return 0; // No fresh oranges to rot
+        }
 
-        // Direction vectors for moving up, down, left, and right
-        int[] dRow = {1, -1, 0, 0};
-        int[] dCol = {0, 0, 1, -1};
+        int time = 0;
 
-        // Process the queue
+        // Perform BFS
         while (!queue.isEmpty()) {
-            Pair p = queue.poll();
-            int r = p.row;
-            int c = p.col;
-            int t = p.time;
+            int size = queue.size();
+            boolean rotten = false;
 
-            // Update the max time
-            maxTime = Math.max(maxTime, t);
+            for (int i = 0; i < size; i++) {
+                int[] rottenloc = queue.poll();
+                int r = rottenloc[0];
+                int c = rottenloc[1];
 
-            // Spread the rot to adjacent fresh oranges
-            for (int i = 0; i < 4; i++) {
-                int newRow = r + dRow[i];
-                int newCol = c + dCol[i];
+                int[][] neighbours = { {r - 1, c}, {r, c + 1}, {r + 1, c}, {r, c - 1} };
 
-                if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && grid[newRow][newCol] == 1 && vis[newRow][newCol] == 0) {
-                    vis[newRow][newCol] = 2;
-                    queue.add(new Pair(newRow, newCol, t + 1));
+                for (int[] neighbour : neighbours) {
+                    int nr = neighbour[0];
+                    int nc = neighbour[1];
+
+                    // Check bounds and whether it's a fresh orange
+                    if (nr < 0 || nr >= n || nc < 0 || nc >= m || grid[nr][nc] != 1) {
+                        continue;
+                    }
+
+                    // Mark as rotten and reduce fresh count
+                    grid[nr][nc] = 2;
+                    freshcount--;
+                    queue.offer(new int[] { nr, nc });
+                    rotten = true;
                 }
+            }
+
+            // Increment time only if some fresh oranges were rotted in this level
+            if (rotten) {
+                time++;
+            }
+
+            // Break if no fresh oranges are left
+            if (freshcount == 0) {
+                return time;
             }
         }
 
-        // Check if there's any fresh orange left
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == 1 && vis[i][j] != 2) {
-                    return -1;
-                }
-            }
-        }
-
-        return maxTime;
+        return -1; // Some fresh oranges couldn't be rotted
     }
 }
+
+
