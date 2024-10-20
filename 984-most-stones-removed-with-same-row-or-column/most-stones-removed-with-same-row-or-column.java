@@ -1,5 +1,5 @@
 class Solution {
-    // Total number of components is equal to total number of DFS calls made
+   // Total number of components is equal to total number of DFS calls made
     public void dfs(int src , List<List<Integer>> adjList , boolean [] visited){
         visited[src] = true;
          for(int neighbour : adjList.get(src)){
