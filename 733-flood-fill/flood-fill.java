@@ -28,7 +28,7 @@ class Solution {
         //  dfs(sr,sc, color , image[sr][sc]  , image);
         //  return image;
 
-
+     // BFS
         rows = image.length;
         cols = image[0].length;
 
