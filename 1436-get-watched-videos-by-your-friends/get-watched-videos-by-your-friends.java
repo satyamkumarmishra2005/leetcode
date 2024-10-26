@@ -16,6 +16,7 @@ class Solution {
         }
     }
     public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
+        // Bfs
         Queue<Integer> queue = new LinkedList<>();
         HashSet<Integer> visited = new HashSet<>();
 
@@ -66,3 +67,4 @@ class Solution {
     return res;
 }
 }
+
