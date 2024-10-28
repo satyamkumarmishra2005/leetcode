@@ -17,12 +17,12 @@ class Solution {
     }
 
 
-void dfs(int [][] isConnected , boolean visited[] , int i){
-     visited[i] = true;
+void dfs(int [][] isConnected , boolean visited[] , int u){
+     visited[u] = true;
 
-     for(int j =0 ; j< n ; j++){
+     for(int v =0 ; v< n ; v++){
 
-        if(!visited[j] && isConnected[i][j] == 1 ) dfs(isConnected , visited , j);
+        if(!visited[v] && isConnected[u][v] == 1 ) dfs(isConnected , visited , v);
      }
 }
 
