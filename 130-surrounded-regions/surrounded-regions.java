@@ -1,4 +1,11 @@
 class Solution {
+
+  //  The intuition is that we start from boundary elements having ‘O’ and go through its neighboring Os in 4 directions and mark them as visited to avoid replacing them with ‘X’. 
+
+  // start form the boundary o and mark them visited as they can not be converted
+  // if any O is connected to the boundary O then mark them also visisted by dfs
+
+  // and convert the other O to X 
     int m ;
     int n ;
     public void solve(char[][] board) {
