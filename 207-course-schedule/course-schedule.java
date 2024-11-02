@@ -22,11 +22,11 @@ class Solution {
         }
 
         while (!queue.isEmpty()) {
-            int current = queue.poll();
-            ans.add(current);
+            int node = queue.poll();
+            ans.add(node);
 
-            if (adj[current] != null) {
-                for (int next : adj[current]) {
+            if (adj[node] != null) {
+                for (int next : adj[node]) {
                     indegree[next]--;
                     if (indegree[next] == 0) {
                         queue.offer(next);
