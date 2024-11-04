@@ -1,4 +1,7 @@
 class Solution {
+
+    // in this we have to find the number of componenets 
+    // The no of times Dfs call is made  is equal to number of components
     int n ;
     public int findCircleNum(int[][] isConnected) {
         n = isConnected.length;
@@ -24,7 +27,7 @@ class Solution {
 
         for(int v = 0 ; v< n ; v++){
 
-            if(!visited[v] && isConnected[u][v]==1){
+            if(!visited[v] && isConnected[u][v]==1){  // v is not visisted and v is the neighbour of u then aplly dfs
                 dfs(v , isConnected , visited);
             }
         }
