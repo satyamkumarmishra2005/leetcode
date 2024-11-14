@@ -16,6 +16,8 @@ class Solution {
     // Using Memoization
     //  static int fibbo(int n , int [] dp){
     //     // Using Memoization
+    // Tc = O(N)
+    // Sc = O(N) + O(N)
     //     if(n<=1){
     //         return n;
     //     }
@@ -33,6 +35,8 @@ class Solution {
 
 
     // using tabulation 
+    // Tc = O(N)
+    //sc = O(N)
     // if(n== 0){
     //     return 0;
     // }
@@ -55,6 +59,8 @@ class Solution {
 
 
     // Space optimization
+    // Tc = O (N)
+    // Sc = O(1)
     if(n == 0){
         return 0;
     }
