@@ -36,7 +36,18 @@ class Solution {
     //     return dp[i][j] = up + left;
     // }
 
+    
+
      // Tabulation
+
+
+    // Time Complexity: O(M*N)
+
+    //Reason: There are two nested loops
+
+    //Space Complexity: O(M*N)
+
+    //Reason: We are using an external array of size ‘M*N’’.
      
       public int uniquePaths(int m, int n) {
 
