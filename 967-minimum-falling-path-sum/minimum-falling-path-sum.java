@@ -54,10 +54,12 @@ class Solution {
 
         int [][] dp = new int [n][m];
 
-
+         // Initializing the first row - base condition
          for (int j = 0; j < m; j++) {
             dp[0][j] = matrix[0][j];
         }
+
+         // Calculate the minimum path sum for each cell in the matrix
 
         for(int i = 1; i< n ; i++){
             for(int j = 0 ; j< m ; j++){
@@ -79,12 +81,11 @@ class Solution {
                     rightDiagonal += (int) Math.pow(10, 9);
                 }
 
-                // Store the maximum of the three paths in dp
+                // Store the minimum of the three paths in dp
                 dp[i][j] = Math.min(up, Math.min(leftDiagonal, rightDiagonal));
             }
         }
-
-
+        // Find the minimum value in the last row of dp
         int mini = Integer.MAX_VALUE;
      for(int j = 0 ; j<m ; j++){
       mini =  Math.min(mini , dp[n-1][j]);
