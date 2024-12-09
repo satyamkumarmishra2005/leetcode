@@ -9,14 +9,14 @@ class Solution {
             }
         }
 
-        return solve(prices , 0,1,0,dp,n);
+        return solve(prices , 0,1,2,dp,n);
     }
 
     static int solve(int [] prices , int index , int buy , int cap , int[][][] dp , int n){
         if(index==n){
             return 0;
         }
-        if(cap == 2){
+        if(cap == 0){
             return 0;
         }
 
@@ -33,7 +33,7 @@ class Solution {
         }
       else{  //sell the stock
     // sell
-    int op1 = prices[index] + solve(prices , index+1 , 1 , cap+1 , dp , n);
+    int op1 = prices[index] + solve(prices , index+1 , 1 , cap-1 , dp , n);
     // skip
     int op2 = solve(prices , index+1 , 0 , cap ,dp , n);
 
