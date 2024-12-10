@@ -10,28 +10,28 @@ class Solution {
         }
         return solve(0,1,prices,0,k,dp);
     }
-    int solve(int ind,int buy,int[] prices,int count,int k,int[][][] dp)
+    int solve(int ind,int buy,int[] prices,int cap,int k,int[][][] dp)
     {
         if(ind==prices.length)
         return 0;
-        if(count==k)
+        if(cap==k)
         return 0;
-        if(dp[ind][buy][count]!=-1)
-        return dp[ind][buy][count];
+        if(dp[ind][buy][cap]!=-1)
+        return dp[ind][buy][cap];
         int profit=0;
-        if(buy==1 && count<k)
+        if(buy==1 && cap<k)
         {
-            int op1=-prices[ind]+solve(ind+1,0,prices,count,k,dp);
-            int op2=solve(ind+1,1,prices,count,k,dp);
+            int op1=-prices[ind]+solve(ind+1,0,prices,cap,k,dp);
+            int op2=solve(ind+1,1,prices,cap,k,dp);
             profit=Math.max(op1,op2);
         }
         else
         {
-            int op1=prices[ind]+solve(ind+1,1,prices,count+1,k,dp);
-            int op2=solve(ind+1,0,prices,count,k,dp);
+            int op1=prices[ind]+solve(ind+1,1,prices,cap+1,k,dp);
+            int op2=solve(ind+1,0,prices,cap,k,dp);
             profit=Math.max(op1,op2);
         }
-        dp[ind][buy][count]=profit;
-        return dp[ind][buy][count];
+       return  dp[ind][buy][cap]=profit;
+       // return dp[ind][buy][cap];
     }
 }
