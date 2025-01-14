@@ -1,6 +1,9 @@
 class Solution {
     public int[] findThePrefixCommonArray(int[] A, int[] B) {
         // optimized solution
+        //Time complexity = O(N)
+        //Space complexity = O(N)
+
         int n = A.length;
 
         int result [] = new int [n];
