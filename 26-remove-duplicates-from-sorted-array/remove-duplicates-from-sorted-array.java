@@ -1,12 +1,19 @@
 class Solution {
     public int removeDuplicates(int[] nums) {
-        int j =1;
-        for(int i =1 ; i<nums.length ; i++){
-            if(nums[i]!= nums[i-1]){
-                nums[j]=nums[i];
-                j++;
+        // Two pointer approach
+
+        int n = nums.length;
+       
+        int i = 0;
+        int j = 1;
+
+        while(j< n){
+            if(nums[i]!= nums[j]){ // unique element found  
+                i++;
+                nums[i] = nums[j]; 
             }
+            j++;  // keep searching unique elemnt 
         }
-        return j;
+        return i +1 ; // return the length 
     }
 }
