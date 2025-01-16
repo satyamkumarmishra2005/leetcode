@@ -12,19 +12,21 @@ class Solution {
             // Skip non-vowel characters
             if (!isVowel(chars[i])) {
                 i++;
-                continue;
+              
             }
 
-            if (!isVowel(chars[j])) {
+           else if (!isVowel(chars[j])) {
                 j--;
-                continue;
+              
             }
 
             // Swap vowels
-            swap(chars, i, j);
-            i++;
+          else{
+           swap(chars, i, j);
+              i++;
             j--;
-        }
+        };
+    }
 
         // Convert back to a string and return
         return new String(chars);
