@@ -1,4 +1,7 @@
 class Solution {
+    // optimized 
+    // Time complexity = O(N)
+    // Space complexity =O(N)
     public int[] rearrangeArray(int[] nums) {
         int n = nums.length;
 
