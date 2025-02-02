@@ -9,6 +9,10 @@ class Solution {
 
          for(int [] interval : intervals){
             if(interval[0]<= newinterval[1]){   
+                // 0 = startpart 
+                //1 = endpart
+
+            
                 // Overlapping intervals,
         // update the end if needed
                 newinterval[1] = Math.max(newinterval[1],interval[1]);
