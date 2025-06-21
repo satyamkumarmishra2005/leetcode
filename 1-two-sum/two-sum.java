@@ -1,19 +1,16 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
+        // Brute Force 
+        // Tc = O(N*N)
         int n = nums.length;
-        HashMap<Integer, Integer> map = new HashMap<>();
-
-        for(int i = 0 ; i< n ; i++){
-            int compliment = target-nums[i];
-             // Check if the complement exists in the map
-            if(map.containsKey(compliment)){
-                return new int[] {map.get(compliment),i};
+        for(int i =0 ; i<n ; i++){
+            for(int j = i+1 ; j<n ; j++){
+                if(nums[i]+nums[j]== target){
+                    return new int[]{i,j};
+                }
             }
-          // Store the current value and index in the map
-            map.put(nums[i],i);
         }
-        // If no solution is found
-        return new int[0];
 
+        return new int[]{};
     }
 }
