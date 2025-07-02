@@ -9,50 +9,38 @@
  * }
  */
 class Solution {
-      public ListNode middleNode(ListNode head) {
-        ListNode s = head;
-        ListNode f = head;
-
-        while (f != null && f.next != null) {
-            s = s.next;
-            f = f.next.next;
-        }
-        return s;
-    }
-      public ListNode reverseList(ListNode head) {
-        if (head == null) {
-            return head;
-        }
-        ListNode prev = null;
-        ListNode present = head;
-        ListNode next = present.next;
-
-        while (present != null) {
-            present.next = prev;
-            prev = present;
-            present = next;
-            if (next != null) {
-                next = next.next;
-            }
-        }
-        return prev;
-    }
-
     public boolean isPalindrome(ListNode head) {
-          ListNode mid = middleNode(head);
-        ListNode headSecond = reverseList(mid);
-        ListNode rereverseHead = headSecond;
 
-        // compare both the halves
-        while (head != null && headSecond != null) {
-            if (head.val != headSecond.val) {
-                break;
-            }
-            head = head.next;
-            headSecond = headSecond.next;
+        if(head== null || head.next == null){
+            return true;
+
         }
-        reverseList(rereverseHead);
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode prev = null;
 
-        return head == null || headSecond == null;
+        while(fast!= null && fast.next!= null){
+            fast = fast.next.next;
+            ListNode temp = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow= temp;
+        }
+
+        if(fast!= null){  // Odd Number of nodes
+            slow = slow.next;
+        }
+        while(prev!= null && slow!= null){
+            if(prev.val != slow.val){
+                return false;
+            }
+
+            slow = slow.next;
+            prev = prev.next;
+
+        }
+
+        return true;
     }
-    }
+}
