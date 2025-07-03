@@ -9,57 +9,41 @@
  * }
  */
 class Solution {
-      public ListNode middleNode(ListNode head) {
-        ListNode s = head;
-        ListNode f = head;
 
-        while (f != null && f.next != null) {
-            s = s.next;
-            f = f.next.next;
-        }
-        return s;
-    }
-
-     public ListNode reverseList(ListNode head) {
-        if (head == null) {
+// Steps ; Reverse the LinkedList from mid to end
+// Proceed with while loop
+    ListNode reverseLinkedList(ListNode head){
+        if(head==null || head.next== null){
             return head;
         }
-        ListNode prev = null;
-        ListNode present = head;
-        ListNode next = present.next;
 
-        while (present != null) {
-            present.next = prev;
-            prev = present;
-            present = next;
-            if (next != null) {
-                next = next.next;
-            }
-        }
-        return prev;
+        ListNode last = reverseLinkedList(head.next);
+        head.next.next = head;
+        head.next= null;
+        return last;
     }
     public void reorderList(ListNode head) {
-     if(head==null && head.next == null){
-        return;
-     }
-     ListNode mid = middleNode(head);
-     ListNode hs = reverseList(mid);
-     ListNode hf = head;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!= null && fast.next!= null){
+            slow = slow.next;
+            fast = fast.next.next;
+            
 
-     while(hf!= null && hs!= null){
-        ListNode temp = hf.next;
-        hf.next = hs;
-        hf = temp;
-       temp = hs.next;
-        hs.next = hf;
-        hs = temp;
-     }
+        }
 
-     // Next of tail is null
-     if(hf!= null ){
-        hf.next = null;
-     }
+        ListNode rev = reverseLinkedList(slow);
+        ListNode curr = head;
+
+        while(rev.next!= null){
+            ListNode tempcurr = curr.next;
+            curr.next = rev;
+            ListNode temprev = rev.next;
+            
+            rev.next = tempcurr;
+
+            curr = tempcurr;
+            rev = temprev;
+        }
     }
 }
-
-    
