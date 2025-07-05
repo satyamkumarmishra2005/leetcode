@@ -11,30 +11,29 @@
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-
-        if(head== null || head.next== null){
-            return null;
-        }
         ListNode slow = head;
         ListNode fast = head;
+
+        if(head== null || head.next == null){
+            return null;
+        }
 
         while(fast!= null && fast.next!= null){
             slow = slow.next;
             fast = fast.next.next;
 
-            if(slow==fast){
+            if(fast== slow){
                 break;
             }
         }
-
-        if(slow!= fast){  // No cycle
-            return null; 
+        if(fast!= slow){  // No cycle
+            return null;
         }
 
-        ListNode p = head; //When P meets the slow than that point is the starting Node of the cycle
+        ListNode p = head;
 
-        while(p!= slow){
-            p= p.next;
+        while(p!= slow){    // The point where P and slow will mett is the starting point
+            p = p.next;
             slow = slow.next;
         }
 
