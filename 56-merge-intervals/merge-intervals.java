@@ -4,25 +4,21 @@ class Solution {
 
          List<int[]> res = new ArrayList<>();
 
-         int [] newinterval = intervals[0];
+         int[] newinterval = intervals[0];
+
          res.add(newinterval);
 
-         for(int [] interval : intervals){
-            if(interval[0]<= newinterval[1]){   
-                // 0 = startpart 
-                //1 = endpart
-
-            
-                // Overlapping intervals,
-        // update the end if needed
-                newinterval[1] = Math.max(newinterval[1],interval[1]);
+         for(int[] interval: intervals){
+            if(interval[0]<= newinterval[1]){
+              newinterval[1] = Math.max(interval[1], newinterval[1]);
             }
 
             else{
-                newinterval = interval;
+                newinterval= interval;
+
                 res.add(newinterval);
             }
-         } 
+         }
 
           return res.toArray(new int[res.size()][]);
     }
