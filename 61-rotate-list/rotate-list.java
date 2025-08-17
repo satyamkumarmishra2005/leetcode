@@ -31,7 +31,9 @@ class Solution {
 
         ListNode newlast = head;
 
-        for(int i =0 ; i< skip-1 ; i++){
+        for(int i =0 ; i< skip-1 ; i++){   // skip the remaining node 
+        // stop iteration on 3 new last = 3 
+
 
             newlast = newlast.next;
 
