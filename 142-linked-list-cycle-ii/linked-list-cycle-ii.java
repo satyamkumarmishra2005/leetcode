@@ -14,29 +14,31 @@ public class Solution {
         ListNode slow = head;
         ListNode fast = head;
 
-        if(head== null || head.next == null){
+        if(head== null || head.next== null){
             return null;
         }
 
-        while(fast!= null && fast.next!= null){
+        while(fast!= null && fast.next != null){
             slow = slow.next;
             fast = fast.next.next;
 
-            if(fast== slow){
+            if(slow==fast){
                 break;
             }
+
+        
         }
-        if(fast!= slow){  // No cycle
+
+        if(slow!= fast){
             return null;
         }
 
         ListNode p = head;
-
-        while(p!= slow){    // The point where P and slow will mett is the starting point
+        
+        while(p!= slow){
             p = p.next;
             slow = slow.next;
         }
-
-        return p;
+        return p ;
     }
 }
