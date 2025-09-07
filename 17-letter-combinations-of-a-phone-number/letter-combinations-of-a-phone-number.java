@@ -1,43 +1,45 @@
-import java.util.ArrayList;
-import java.util.List;
+class Solution {
+      List<String> result = new ArrayList<>();
 
-public class Solution {
-    static List<String> letterCombinations(String digits) {
-        if(digits.isEmpty()){
-            return new ArrayList<>();
+     public void solve(int indx , String digits , StringBuilder temp ,  Map<Character, String> mp ){
+        if(indx>= digits.length()){
+            result.add(temp.toString());
+            return ;
         }
-        return padlist("", digits);
-    }
-    
-    private static ArrayList<String> padlist(String p , String up){
-        if(up.isEmpty()){
-            ArrayList<String> list = new ArrayList<>();
-            list.add(p);
-            return list;
+
+       char ch = digits.charAt(indx); // 2
+        String str = mp.get(ch); // abc
+
+        for(int i =0 ; i< str.length(); i++){
+            temp.append(str.charAt(i));
+            solve(indx+1 , digits, temp , mp);
+            // undo backtrack
+            temp.deleteCharAt(temp.length()-1);
         }
-        char digit = up.charAt(0);
-        String letters = getLetters(digit);
-        ArrayList<String> ans = new ArrayList<>();
-        for(int i = 0; i < letters.length(); i++){
-            char ch = letters.charAt(i);
-            ans.addAll(padlist(p + ch, up.substring(1)));
-        }
-        return ans;
     }
 
-    private static String getLetters(char digit) {
-        switch(digit) {
-            case '2': return "abc";
-            case '3': return "def";
-            case '4': return "ghi";
-            case '5': return "jkl";
-            case '6': return "mno";
-            case '7': return "pqrs";
-            case '8': return "tuv";
-            case '9': return "wxyz";
-            default: return "";
+    public List<String> letterCombinations(String digits) {
+        if(digits.length()==0){
+            return result;
         }
+
+        Map<Character, String> mp = new HashMap<>();
+        
+        mp.put('2', "abc");
+        mp.put('3', "def");
+        mp.put('4', "ghi");
+        mp.put('5', "jkl");
+        mp.put('6', "mno");
+        mp.put('7', "pqrs");
+        mp.put('8', "tuv");
+        mp.put('9', "wxyz");
+        
+        StringBuilder temp = new StringBuilder();
+
+        solve(0 , digits , temp , mp);
+
+        return result;
     }
+
+ 
 }
-    
-
