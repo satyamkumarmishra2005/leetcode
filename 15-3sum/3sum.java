@@ -26,9 +26,9 @@ class Solution {
                         j++;
                      }
 
-                     while(j<k && nums[k]== nums[k+1]){
-                     k--;
-                     }
+                    //  while(j<k && nums[k]== nums[k+1]){
+                    //  k--;
+                    //  }
                 }
 
                 else if (target > nums[i]+ nums[j] + nums[k] ){
