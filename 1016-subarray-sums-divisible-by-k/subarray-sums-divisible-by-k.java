@@ -13,9 +13,13 @@ class Solution {
 
             sum+= nums[i];
            
-           // we are not directly doing sum % k because the arary contains negative number also 
+        
 
-            int rem = ((sum % k ) + k )%k ;  
+            int rem = sum % k;  
+
+            if(rem<0){
+                rem+= k;
+            } 
 
             if(map.containsKey(rem)){
                 ans+= map.get(rem);
