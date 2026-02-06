@@ -1,23 +1,25 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        // Optimized (Kadane's Algorithm)
-        
 
-        int maxi = Integer.MIN_VALUE;
-        int sum =0;
+        int bestending= nums[0]; // because at zero index the best ending can be itself 
+        int ans = nums[0];
+
         int n = nums.length;
 
-        for(int i =0 ; i< n ; i++){
-         sum = sum+ nums[i];
+        
 
-         if(sum> maxi){
-            maxi = sum;
-         }
+        for(int i = 1; i< n ; i++){
 
-         if ( sum < 0){
-            sum =0;
-         }
+            int v1 = bestending + nums[i];
+            int v2 = nums[i];
+
+            bestending = Math.max(v1,v2);
+
+            ans = Math.max(ans , bestending);
+
         }
-        return maxi;
+          return ans;
+
+        
     }
 }
