@@ -1,26 +1,24 @@
 class Solution {
     public int maxProduct(int[] nums) {
-        int n = nums.length;
-        int maxProduct = nums[0];
-        int currMax = nums[0];
-        int currMin = nums[0];
 
-        for (int i = 1; i < n; i++) {
-            // If the current number is negative, swap currMax and currMin
-            if (nums[i] < 0) {
-                int temp = currMax;
-                currMax = currMin;
-                currMin = temp;
+        int currmax = nums[0];
+        int currmin = nums[0];
+
+        int maxproduct = nums[0];
+
+        for(int i = 1; i< nums.length ; i++){
+
+            if(nums[i]<0){
+                int temp = currmax;
+                currmax = currmin;
+                currmin = temp;
             }
 
-            // Update currMax and currMin
-            currMax = Math.max(nums[i], currMax * nums[i]);
-            currMin = Math.min(nums[i], currMin * nums[i]);
+            currmax = Math.max(currmax*nums[i], nums[i]);
+            currmin = Math.min(currmin* nums[i], nums[i]);
 
-            // Update the overall max product
-            maxProduct = Math.max(maxProduct, currMax);
+            maxproduct = Math.max(maxproduct , currmax);
         }
-
-        return maxProduct;
+        return maxproduct;
     }
 }
