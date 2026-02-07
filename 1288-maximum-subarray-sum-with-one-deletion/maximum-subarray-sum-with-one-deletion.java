@@ -1,18 +1,20 @@
 class Solution {
-    public int maximumSum(int[] nums) {
+    public int maximumSum(int[] arr) {
 
-        int dp0 = nums[0];  // no deletion
-        int dp1 = 0;        // one deletion
-        int ans = nums[0];
+        int dp0 = arr[0];
+        int dp1 = 0;
+        int ans = arr[0];
 
-        for (int i = 1; i < nums.length; i++) {
+        for(int i = 1; i< arr.length; i++){
+            dp1 = Math.max(dp0 , dp1+ arr[i]);  // deleteing nums[i] current by not picking it and taking the previous value of dp0
 
-            dp1 = Math.max(dp0, dp1 + nums[i]); // delete nums[i] OR extend deletion
-            dp0 = Math.max(nums[i], dp0 + nums[i]);
+            dp0 = Math.max(dp0+ arr[i], arr[i]);
 
-            ans = Math.max(ans, Math.max(dp0, dp1));
+            ans = Math.max(ans, Math.max(dp1, dp0));
+
         }
 
         return ans;
+        
     }
 }
