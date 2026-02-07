@@ -11,7 +11,11 @@ class Solution {
             currmax = Math.max(currmax + nums[i], nums[i]);
             currmin = Math.min(currmin+ nums[i], nums[i]);
 
-            maxsum = Math.max(maxsum , Math.max(currmax, -(currmin)));
+          //  maxsum = Math.max(maxsum , Math.max(currmax, -(currmin)));
+        //  or 
+
+           maxsum = Math.max(maxsum , Math.max(currmax, Math.abs(currmin)));
+
         }
 
         return maxsum;
