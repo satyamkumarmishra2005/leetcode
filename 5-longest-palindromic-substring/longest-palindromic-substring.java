@@ -1,46 +1,74 @@
 class Solution {
-    public String longestPalindrome(String str) {
- if (str.length() <= 1)
-      return str;
+    public String longestPalindrome(String s) {
 
-    String LPS = "";
+        if(s.length()<=1){
+            return s;
+        }
 
-    for (int i = 1; i < str.length(); i++) {
+        String lps = "";
 
-      // Consider odd length
-      int low = i;
-      int high = i;
-      while(str.charAt(low) == str.charAt(high)) {
-        low--;
-        high++;
+        // for odd length palindrome
 
-        if (low == -1 || high == str.length())
-          break;
-      }
+        for(int i = 1 ; i<s.length(); i++){
 
-      String palindrome = str.substring(low+1, high);
-      if (palindrome.length() > LPS.length()) {
-        LPS = palindrome;
-      }
+            int low = i;
+            int high = i;
 
-      // Consider even length
-      low = i-1;
-      high = i;
-      while(str.charAt(low) == str.charAt(high)) {
-        low--;
-        high++;
+            while(s.charAt(low)== s.charAt(high)){
+                low--;
+                high++;
 
-        if (low == -1 || high == str.length())
-          break;
-      }
+                if(low==-1 || high ==s.length()){
+                break;
+            }
 
-      palindrome = str.substring(low+1, high);
-      if (palindrome.length() > LPS.length()) {
-        LPS = palindrome;
-      }
+            }
+
+
+            
+
+        String palindrome = s.substring(low+1, high);
+
+        if(palindrome.length()> lps.length()){
+            lps = palindrome;
+        }
+
+
+
+        // consider even length
+
+        low = i-1;
+        high = i;
+
+
+        while(s.charAt(low)==s.charAt(high)){
+            low--;
+            high++;
+
+            if(low==-1 || high ==s.length()){
+                break;
+            }
+
+        }
+
+         
+
+
+         palindrome = s.substring(low+1, high);
+ 
+
+      if(palindrome.length()> lps.length()){
+            lps = palindrome;
+        }
+
+
+
+
+
+        }
+
+
+        return lps;
+        
     }
-
-    return LPS;
-  }
-
 }
