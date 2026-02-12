@@ -1,30 +1,29 @@
 class Solution {
-    private Boolean[] t;
-    int n;
     public boolean wordBreak(String s, List<String> wordDict) {
-        n = s.length();
-        t = new Boolean[s.length()];
-        return solve(s, 0, wordDict);
+          Set<String> wordSet = new HashSet<>(wordDict);
+
+    // Find the maximum word length in the dictionary
+    int maxLen = 0;
+    for (String word : wordDict) {
+      maxLen = Math.max(maxLen, word.length());
     }
-    
-    private boolean solve(String s, int idx, List<String> wordDict) {
-        if (idx == n) {
-            return true;
+
+    int n = s.length();
+    // dp[i] states if the substring s[0..i] can be segmented
+    boolean[] dp = new boolean[n + 1];
+
+    // Base case: empty string is valid
+    dp[0] = true;
+
+    for (int i = 1; i <= n; i++)
+
+      // Check prefixes of length up to maxLen
+      for (int j = i - 1; j >= Math.max(0, i - maxLen); j--)
+        if (dp[j] && wordSet.contains(s.substring(j, i))) {
+          dp[i] = true;
+          break; // No need to check further prefixes
         }
-        
-        if (t[idx] != null) {
-            return t[idx];
-        }
-        
-        for (int endIdx = idx + 1; endIdx <= n; endIdx++) {
-            
-            String split = s.substring(idx, endIdx);
-            
-            if (wordDict.contains(split) && solve(s, endIdx, wordDict)) {
-                return t[idx] = true;
-            }
-        }
-        
-        return t[idx] = false;
+
+    return dp[n];
     }
 }
