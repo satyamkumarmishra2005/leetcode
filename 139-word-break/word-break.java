@@ -1,63 +1,30 @@
-class TrieNode {
-    TrieNode[] children;
-    boolean isEndOfWord;
-
-    TrieNode() {
-        children = new TrieNode[26];
-        isEndOfWord = false;
-    }
-}
-
-class Trie {
-    private TrieNode root;
-
-    Trie() {
-        root = new TrieNode();
-    }
-
-    void insert(String word) {
-        TrieNode node = root;
-        for (char ch : word.toCharArray()) {
-            int index = ch - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new TrieNode();
-            }
-            node = node.children[index];
-        }
-        node.isEndOfWord = true;
-    }
-
-    TrieNode getRoot() {
-        return root;
-    }
-}
-
 class Solution {
+    private Boolean[] t;
+    int n;
     public boolean wordBreak(String s, List<String> wordDict) {
-        Trie trie = new Trie();
-        for (String word : wordDict) {
-            trie.insert(word);
+        n = s.length();
+        t = new Boolean[s.length()];
+        return solve(s, 0, wordDict);
+    }
+    
+    private boolean solve(String s, int idx, List<String> wordDict) {
+        if (idx == n) {
+            return true;
         }
-
-        int n = s.length();
-        boolean[] dp = new boolean[n + 1];
-        dp[0] = true;
-
-        for (int i = 0; i < n; i++) {
-            if (!dp[i]) continue;
-            TrieNode node = trie.getRoot();
-            for (int j = i; j < n; j++) {
-                int index = s.charAt(j) - 'a';
-                if (node.children[index] == null) {
-                    break;
-                }
-                node = node.children[index];
-                if (node.isEndOfWord) {
-                    dp[j + 1] = true;
-                }
+        
+        if (t[idx] != null) {
+            return t[idx];
+        }
+        
+        for (int endIdx = idx + 1; endIdx <= n; endIdx++) {
+            
+            String split = s.substring(idx, endIdx);
+            
+            if (wordDict.contains(split) && solve(s, endIdx, wordDict)) {
+                return t[idx] = true;
             }
         }
-
-        return dp[n];
+        
+        return t[idx] = false;
     }
 }
