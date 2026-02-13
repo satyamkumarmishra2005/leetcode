@@ -4,6 +4,9 @@ class Solution {
         HashMap<Character, Integer> s2map = new HashMap<>();
         int k = s1.length();
 
+        if (s1.length() > s2.length()) return false;
+
+
         for(char ch: s1.toCharArray()){
             s1map.put(ch , s1map.getOrDefault(ch,0)+1);
         }
