@@ -1,60 +1,71 @@
- class Solution {
+class Solution {
     public String minWindow(String s, String t) {
-        String ans="";
-        int i=0,j=0;
-        int min=Integer.MAX_VALUE;
-        HashMap<Character,Integer> map=new HashMap<>();
-        for(int k=0;k<t.length();k++)
-        {
-            char c=t.charAt(k);
-            map.put(c,map.getOrDefault(c,0)+1);
+
+    HashMap<Character, Integer> map = new HashMap<>();
+
+    int n = s.length();
+
+    if(t.length()> n){
+        return "";
+    }
+
+    for(char ch : t.toCharArray()){
+        map.put(ch, map.getOrDefault(ch,0)+1);
+    }
+
+    int i =0;
+    int j =0;
+
+    int start_i = 0;
+
+    int reqcount = t.length();
+
+    int minwindowsize = Integer.MAX_VALUE;
+
+    while(j< n){
+        char ch = s.charAt(j);
+
+        if(map.containsKey(ch) && map.get(ch)>0 ){
+            reqcount--;
         }
-        int count=map.size();
+
+        map.put(ch, map.getOrDefault(ch,0)-1);
+
+
+        while(reqcount==0){ // Start shrinking
+
+        int currwindowsize = j-i+1;
+
+        if (minwindowsize > currwindowsize) {
+                    minwindowsize = currwindowsize;
+                    start_i = i;
+                }
+
+         
+
+         char leftchar = s.charAt(i);
+         map.put(leftchar , map.getOrDefault(leftchar,0)+1);
+
+
+         if(map.containsKey(leftchar) && map.get(leftchar)> 0 ){  // we have removed the charcter of string t from string s so now the required count increases for that character
+            reqcount++;
+         }
+
+
+
+         i++;
+
+
+
+
+
+
+        }
+
+        j++;
+    }
+
+     return minwindowsize == Integer.MAX_VALUE ? "" : s.substring(start_i, start_i + minwindowsize); 
         
-        while(j<s.length())
-        {
-            char c=s.charAt(j);
-            if(!map.containsKey(c))
-            {
-                j++;
-                continue;
-            }
-            else if(map.containsKey(c))
-            {
-                map.put(c,map.get(c)-1);
-                if(map.get(c)==0)
-                    count--;
-            }
-            if(count==0)
-            {
-                if(min>j-i+1)
-                {
-                    ans=s.substring(i,j+1);
-                    min=Math.min(min,j-i+1);
-                }
-                while(count==0)
-                {
-                    char c1=s.charAt(i);
-                    if(!map.containsKey(c1))
-                        i++;
-                    else{
-                        map.put(c1,map.get(c1)+1);
-                        if(map.get(c1)>0)
-                            count++;
-                        i++;
-                    }
-                    if(count==0)
-                    {
-                        if(min>j-i+1)
-                        {
-                            ans=s.substring(i,j+1);
-                            min=j-i+1;
-                        }
-                    }
-                }
-            }
-            j++;
-        }
-        return ans;
     }
 }
