@@ -7,12 +7,12 @@ class Solution {
         while(left< right){
             int mid = left + (right-left)/2;
 
-            if(arr[mid]< arr[mid+1]){ // peak is at the right
+            if(arr[mid]< arr[mid+1]){ // peak is at the right we are on the ascendoiong slope
               left = mid +1;
 
             }
 
-           else{ // peak is at the left side
+           else{ // peak is at the left side we are on the descending slope
            right = mid;
            }
             
