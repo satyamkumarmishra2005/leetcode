@@ -5,7 +5,7 @@ class Solution {
 
         int max = 0;
 
-        int ans = -1;
+        int minday = -1;
 
         for(int bloom: bloomDay){
             max = Math.max(max , bloom);
@@ -18,7 +18,7 @@ class Solution {
             int mid = left + (right-left)/2;
 
             if(possibleDay(bloomDay, m , k , mid) >= m){
-                ans =  mid ;
+                minday =  mid ; 
                 right = mid -1;
             }
 
@@ -27,7 +27,7 @@ class Solution {
 
             }
         }
-        return ans;
+        return minday;
     }
 
     public long possibleDay(int[] bloomDay, int m, int k, int day) {
