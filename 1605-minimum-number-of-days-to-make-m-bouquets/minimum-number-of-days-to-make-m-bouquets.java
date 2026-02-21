@@ -17,20 +17,20 @@ class Solution {
         while(left<= right){
             int mid = left + (right-left)/2;
 
-            if(possibleDay(bloomDay, m , k , mid) >= m){
-                minday =  mid ; 
-                right = mid -1;
+            if(canMakebouque(bloomDay, m , k , mid) >= m){
+                minday =  mid ; // possible answer
+                right = mid -1; // look for more min day
             }
 
             else{
-                left = mid +1;
+                left = mid +1;// this day is not sufficent for flowers to bloom pick a larger day
 
             }
         }
         return minday;
     }
 
-    public long possibleDay(int[] bloomDay, int m, int k, int day) {
+    public long canMakebouque(int[] bloomDay, int m, int k, int day) {
 
         long flower = 0;
         long buoqcount = 0;
