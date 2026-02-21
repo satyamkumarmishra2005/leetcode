@@ -38,6 +38,11 @@ class Solution {
         
     }
 
+ // Keep adding weights to current load.
+// If load becomes equal to capacity → new day.
+// If load exceeds capacity → new day and reset load.
+// Count total days required.
+
    public boolean possibletoship(int[] weights, int days, int capacity) {
 
     int day = 1;
