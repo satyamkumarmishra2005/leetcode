@@ -13,28 +13,18 @@ class Solution {
     map.put(nums2[n-1],-1); // the next greater elemnt of the last elemnt will be -1
 
     for(int i = n-2 ; i>=0; i--){
-        if(nums2[i]<st.peek()){
 
-            map.put(nums2[i], st.peek());
-            st.push(nums2[i]);
-            
-            continue;
-        }
 
-        while(!st.isEmpty() && nums2[i]> st.peek()){
+        while(!st.isEmpty() && nums2[i]>= st.peek()){
             st.pop();
         }
 
-        if(st.isEmpty()){
-            st.push(nums2[i]);
-            map.put(nums2[i], -1);
-        }
+        map.put(nums2[i], st.isEmpty()?-1 : st.peek());
+        st.push(nums2[i]);
 
-        else{
-            map.put(nums2[i], st.peek());
-            st.push(nums2[i]);
-            
-        }
+        
+
+       
     }
 
 
