@@ -1,39 +1,55 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+
+        if(nums2.length==0 || nums1.length==0){
+            return new int[0];
+        }
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Stack<Integer> st = new Stack<>();
+
+        int n = nums2.length;
+
+        st.push(nums2[n-1]);
+        map.put(nums2[n-1], -1); // Key , Value
+
+        for(int i = n-2 ; i>= 0 ; i--){
+            if(nums2[i]< st.peek()){
+                map.put(nums2[i], st.peek());
+                st.push(nums2[i]);
+
+                continue;
+            }
+
+            while(!st.isEmpty() && nums2[i]> st.peek()){
+                st.pop();
+
+              
+            }
+
+            if(st.isEmpty()){
+                st.push(nums2[i]);
+                map.put(nums2[i],-1);
+            }
+
+            else{
+                map.put(nums2[i], st.peek());
+                st.push(nums2[i]);
+            }
+
+
+
+
+
+        }
+
+
+        for(int i = 0 ; i< nums1.length ; i++){
+            nums1[i]= map.get(nums1[i]);
+        }
+
+        return nums1;
         
-    if (nums2.length == 0 || nums1.length == 0)
-      return new int[0];
-       Map<Integer, Integer> numberNGE = new HashMap<>();
-
-       Stack<Integer> helperstack = new Stack<>();
-       helperstack.push(nums2[nums2.length-1]);
-    numberNGE.put(nums2[nums2.length-1],-1);
-
-    for(int i = nums2.length-2 ; i>= 0 ; i--){
-        if(nums2[i]<helperstack.peek()){
-            numberNGE.put(nums2[i],helperstack.peek());
-            helperstack.push(nums2[i]);
-            continue;
-        }
-
-
-        while(!helperstack.isEmpty() && helperstack.peek()<nums2[i])
-        helperstack.pop();
-
-        if(helperstack.isEmpty()){
-            helperstack.push(nums2[i]);
-            numberNGE.put(nums2[i],-1);
-        }
-
-        else{
-            numberNGE.put(nums2[i],helperstack.peek());
-            helperstack.push(nums2[i]);
-        }
     }
-     for (int i = 0; i < nums1.length; i++)
-      nums1[i] = numberNGE.get(nums1[i]);
-
-    return nums1;
-  }
-   
-    }
+}
