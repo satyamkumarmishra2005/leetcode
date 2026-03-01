@@ -7,26 +7,22 @@ class Solution {
             if(a>0){
                 st.push(a);
             }
-            else{
 
+            else{
                 while(!st.isEmpty() && st.peek()>0 && st.peek()<-a){
                     st.pop();
                 }
 
-                if(st.isEmpty() || st.peek()< 0){
+                if(st.isEmpty() || st.peek()<0){
                     st.push(a);
-                }
-
-                else if(st.peek()==-a){
+                }  else if (st.peek()== -a){
                     st.pop();
                 }
             }
         }
 
-        
 
-        // reverse the stack to get the answer
-        int[] res = new int[st.size()];
+        int [] res = new int[st.size()];
 
         int i = st.size()-1;
 
@@ -34,7 +30,7 @@ class Solution {
             res[i--] = st.pop();
         }
 
-        return res;
+   return res;
         
     }
 }
