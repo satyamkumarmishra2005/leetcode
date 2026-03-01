@@ -17,7 +17,7 @@ class Solution {
                     st.push(a);
                 }
 
-                if(st.peek()==-a){
+                else if(st.peek()==-a){
                     st.pop();
                 }
             }
