@@ -1,50 +1,52 @@
 class Solution {
     public String decodeString(String s) {
+
         Stack<Integer> numStack = new Stack<>();
-    Stack<String> stringStack = new Stack<>();
-    int k = 0;
+        Stack<String> stringStack = new Stack<>();
+        int k = 0;
 
-    for (char c : s.toCharArray()) {
+        for(char c : s.toCharArray()){
 
-      if (Character.isDigit(c)) {
-        k = (k * 10) + (c - '0');
-        continue;
-      }
+            if(Character.isDigit(c)){
+                k = k * 10 + (c - '0');
+            }
 
-      if (c == '[') {
-        numStack.push(k);
-        k = 0;
-        stringStack.push(String.valueOf(c));
-        continue;
-      }
+            else if(c == '['){
+                numStack.push(k);
+                k = 0;
+                stringStack.push("[");
+            }
 
-      if (c != ']') {
-        stringStack.push(String.valueOf(c));
-        continue;
-      }
+            else if(c == ']'){
+                StringBuilder temp = new StringBuilder();
 
-      StringBuilder temp = new StringBuilder();
-      while (!stringStack.peek().equals("["))
-        temp.insert(0, stringStack.pop());
+                while(!stringStack.peek().equals("[")){
+                    temp.insert(0, stringStack.pop());
+                }
 
-      // remove the "["
-      stringStack.pop();
+                stringStack.pop(); // remove '['
 
-      // Get the new string
-      StringBuilder replacement = new StringBuilder();
-      int count = numStack.pop();
-      for (int i = 0; i < count; i++)
-        replacement.append(temp);
+                int count = numStack.pop();
+                StringBuilder replacement = new StringBuilder();
 
-      // Add it to the stack
-      stringStack.push(replacement.toString());
-    }
+                for(int i = 0; i < count; i++){
+                    replacement.append(temp);
+                }
 
-    StringBuilder result = new StringBuilder();
-    while (!stringStack.empty()) {
-      result.insert(0, stringStack.pop());
-    }
-    return result.toString();
-   
+                stringStack.push(replacement.toString());
+            }
+
+            else{
+                stringStack.push(String.valueOf(c));
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        while(!stringStack.isEmpty()){
+            result.insert(0, stringStack.pop());
+        }
+
+        return result.toString();
     }
 }
