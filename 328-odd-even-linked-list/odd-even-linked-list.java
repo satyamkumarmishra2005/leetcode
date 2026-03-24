@@ -14,26 +14,26 @@ class Solution {
         if(head== null || head.next == null){
             return head;
         }
+
         ListNode prev = head;
         ListNode curr = head;
 
-
         ListNode temp = curr.next;
-          ListNode evenHead = temp;
 
-       
+        ListNode evenhead = temp;
+
 
         while(temp!= null && temp.next!= null){
             curr.next = temp.next;
-            curr = curr.next ;// move odd forward
-            temp.next = curr.next;  
-            temp = temp.next; // move even forward
+            curr = curr.next; // move  towards odd 
+            temp.next = curr.next;
+            temp = temp.next;  // move towards even
         }
 
-        
-         curr.next = evenHead; // coonect ood with even
+        curr.next = evenhead; // connect odd with even
 
-         return prev;
+
+        return prev;
         
     }
 }
