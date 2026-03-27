@@ -10,37 +10,41 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-
-        if(head== null || head.next == null){
-            return true;
-
-        }
         
+        if(head == null || head.next == null){
+            return true;
+        }
+
+        ListNode prev = null;
         ListNode slow = head;
         ListNode fast = head;
-        ListNode prev = null;
+
 
         while(fast!= null && fast.next!= null){
             fast = fast.next.next;
             ListNode temp = slow.next;
             slow.next = prev;
-            prev = slow;
-            slow= temp;
+            prev= slow;
+            slow = temp;
         }
 
-        if(fast!= null){  // Odd Number of nodes
-            slow = slow.next;
+        if(fast!= null){ // odd no of nodes
+           slow = slow.next; // skip the middle node;
         }
+
+
         while(prev!= null && slow!= null){
+
             if(prev.val != slow.val){
-                return false;
+             return false;
             }
+
 
             slow = slow.next;
             prev = prev.next;
-
         }
 
-        return true;
+     return true;
+
     }
 }
