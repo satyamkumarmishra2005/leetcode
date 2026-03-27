@@ -11,12 +11,12 @@
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
 
-        if(k<=0 || head == null || head.next== null){
+        if(k<=0 || head==null || head.next==null){
             return head;
-        }
-
+        } 
+        
         ListNode last = head;
-       int length = 1;
+        int length = 1;
 
         while(last.next!= null){
             last = last.next;
@@ -31,19 +31,18 @@ class Solution {
 
         ListNode newlast = head;
 
-        for(int i =0 ; i< skip-1 ; i++){   // skip the remaining node 
-        // stop iteration on 3 new last = 3 
 
+        for(int i = 0 ; i< skip-1 ; i++){
 
             newlast = newlast.next;
 
         }
 
         head = newlast.next;
-
         newlast.next = null;
-     
-     return head;
-        
+
+         return head;
     }
+
+
 }
