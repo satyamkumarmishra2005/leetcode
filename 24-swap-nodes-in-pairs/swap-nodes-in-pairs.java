@@ -17,19 +17,19 @@ class Solution {
 
         ListNode prev = dummy;
 
-        ListNode curr = head;
+        ListNode left = head;
 
 
-        while(curr!= null && curr.next!= null){
-            ListNode second = curr.next;
-            ListNode npn = curr.next.next;
+        while(left!= null && left.next!= null){
+            ListNode right = left.next;
+            ListNode nextleft = left.next.next;
 
-            second.next = curr;
-            curr.next = npn ;
-            prev.next = second;
+            right.next = left;
+            left.next = nextleft ;
+            prev.next = right;
 
-            prev = curr;
-            curr = npn;
+            prev = left;
+            left = nextleft;
         }
 
       return dummy.next;
