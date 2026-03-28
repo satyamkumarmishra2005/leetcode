@@ -1,79 +1,46 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
 
-        ListNode temp = head;
-        ListNode prevlast = null;
-      
+        if (head == null || k == 1) return head;
 
-      while(temp!= null){
-        ListNode kthnode = getkthnode(temp , k);
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
 
-        if( kthnode == null){
-            if(prevlast!= null){
-                prevlast.next = temp;
+        ListNode prev = dummy;
+        ListNode left = head;
 
+        while (true) {
+
+            // Step 1: find right (kth node)
+            ListNode right = left;
+            for (int i = 1; i < k && right != null; i++) {
+                right = right.next;
             }
 
-            break;
+            // if less than k nodes
+            if (right == null) break;
+
+            // Step 2: store next group start
+            ListNode secondleft = right.next;
+
+            // Step 3: reverse from left to right
+            ListNode curr = left;
+            ListNode prevNode = secondleft;
+
+            while (curr != secondleft) {
+                ListNode temp = curr.next;
+                curr.next = prevNode;
+                prevNode = curr;
+                curr = temp;
+            }
+
+            // Step 4: connect
+            prev.next = right;
+            prev = left;
+            left = secondleft;
         }
 
-        ListNode nextnode = kthnode.next;
-        kthnode.next = null;
-
-        reverselinkedlist(temp);
-
-        if(temp== head){
-            head= kthnode;
-        }
-
-        else{
-            prevlast.next = kthnode;
-        }
-
-        prevlast = temp;
-        temp = nextnode;
-      }
-        return head;
+        return dummy.next;
     }
-
-
-    static ListNode getkthnode(ListNode temp , int k){
-        k= k-1;
-
-        while(temp!= null && k > 0){
-            temp = temp.next;
-            k--;
-        }
-
-        return temp;
-    }
-  static ListNode reverselinkedlist(ListNode head){
-    ListNode pres = head;
-    ListNode prev = null;
-     ListNode next = pres.next;
-
-     while(pres!= null){
-        pres.next = prev;
-        prev= pres;
-        pres = next;
-
-        if(next!= null){
-            next = next.next;
-        }
-     }
-
-     return prev ; // head;
-  }
-
-    
 }
+
