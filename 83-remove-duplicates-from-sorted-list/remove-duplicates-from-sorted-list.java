@@ -9,21 +9,22 @@
  * }
  */
 class Solution {
-    public ListNode deleteDuplicates(ListNode node) {
-         ListNode head = node ;
-        if(node==null){
-            return node;
-        }
-        while(node!= null && node.next!= null){
-            if(node.val == node.next.val){
-                node.next = node.next.next;
+    public ListNode deleteDuplicates(ListNode head) {
+
+        ListNode curr = head;
+
+        while(curr!= null && curr.next!= null){
+            ListNode temp = curr.next;
+
+            if(curr.val == temp.val){
+                curr.next = temp.next;
             }
 
             else{
-             node =   node.next;
-            }
+                curr = curr.next;
+                temp = temp.next;
+            } 
         }
-
         return head;
     }
 }
