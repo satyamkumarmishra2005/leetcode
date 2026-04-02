@@ -33,7 +33,7 @@ class Solution {
         int carry = 0;
 
         while(!st1.isEmpty() || !st2.isEmpty() || carry!=0 ){
-            int sum = carry;
+            int sum = 0;
 
             if(!st1.isEmpty()){
                 sum = sum + st1.pop();
@@ -42,6 +42,8 @@ class Solution {
             if(!st2.isEmpty()){
                 sum = sum + st2.pop();
             }
+
+            sum = sum + carry;
 
             carry = sum/ 10;
 
