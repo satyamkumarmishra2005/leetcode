@@ -1,45 +1,44 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-       List<List<Integer>> result = new ArrayList<>();
 
-        backtrack(candidates , target , 0 , new ArrayList<>() , result );
+        List<List<Integer>> ans = new ArrayList<>();
 
-        return result;
+        findcombination(candidates,0 , target , ans , new ArrayList<>());
+
+
+        return ans;
     }
 
-    public void backtrack(int [] candidates , int target , int start , List<Integer> current , List<List<Integer>> result){
-    if(start == candidates.length){
 
-    
-        if(target==0){
-            result.add(new ArrayList<>(current));
 
-        }
-            return ;
-        }
+public void findcombination(int[] arr, int indx , int target , List<List<Integer>>ans , List<Integer> ds ){
 
-        // for(int i = start ; i< candidates.length; i++){
-        //     int num = candidates[i];
 
-        //     if(num > target){
-        //         continue;
-        //     }
 
-        //     current.add(num);
+if(indx== arr.length){
 
-        //     backtrack(candidates , target-num , i , current , result);
-
-        //     current.remove(current.size()-1);
-        // }
-
-        if(target>= candidates[start]){
-            current.add(candidates[start]);
-            backtrack(candidates , target- candidates[start] , start , current , result);
-            current.remove(current.size()-1);
-
-        }
-
-        backtrack(candidates ,  target , start+1 , current , result);
+    if(target==0){
+        ans.add(new ArrayList<>(ds));
 
     }
+
+    return;
+}
+
+
+   if(arr[indx]<= target){
+
+    ds.add(arr[indx]);
+
+    findcombination(arr, indx, target-arr[indx], ans , ds); // since we can repeat an element as many 
+    // times as wanted hence we continue to explore on that index only 
+
+    ds.remove(ds.size()-1);  // remove the last elemnt from datastructure while returning back
+
+   }
+
+
+   findcombination(arr, indx+1 , target, ans , ds); 
+
+}
 }
