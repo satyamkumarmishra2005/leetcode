@@ -1,26 +1,19 @@
 class Solution {
     public int countTriplets(int[] nums) {
-        int max = 1 << 16;
-        int[] count = new int[max];
-
-        // Step 1: count all pair ANDs
-        for (int a : nums) {
-            for (int b : nums) {
-                count[a & b]++;
+        int[] count = new int[1 << 16];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                count[nums[i] & nums[j]]++;
             }
         }
-
-        int result = 0;
-
-        // Step 2: check with third element
-        for (int c : nums) {
-            for (int x = 0; x < max; x++) {
-                if ((x & c) == 0) {
-                    result += count[x];
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < 1 << 16; j++) {
+                if ((nums[i] & j) == 0) {
+                    ans += count[j];
                 }
             }
         }
-
-        return result;
+        return ans;
     }
 }
