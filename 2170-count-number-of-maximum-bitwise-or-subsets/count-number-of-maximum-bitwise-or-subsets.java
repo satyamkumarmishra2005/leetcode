@@ -1,31 +1,26 @@
 class Solution {
-    int maxOr = 0;
-    int count = 0;
-
-    public int countMaxOrSubsets(int[] nums) {
-        
-        // Step 1: compute max OR
-        for (int x : nums) {
-            maxOr |= x;
+    public void backtrack(int[] nums, int index, int currentOR, int maxOR, int[] count) {
+        if (currentOR == maxOR) {
+            count[0]++;
         }
 
-        dfs(nums, 0, 0);
-        return count;
+        for (int i = index; i < nums.length; i++) {
+            backtrack(nums, i + 1, currentOR | nums[i], maxOR, count);
+        }
     }
 
-    private void dfs(int[] nums, int index, int currOr) {
-        
-        if (index == nums.length) {
-            if (currOr == maxOr) {
-                count++;
-            }
-            return;
+    public int countMaxOrSubsets(int[] nums) {
+        int maxOR = 0;
+
+        // Step 1: Compute the maximum OR
+        for (int num : nums) {
+            maxOR |= num;
         }
 
-        // take
-        dfs(nums, index + 1, currOr | nums[index]);
+        int[] count = new int[1];
+        // Step 2: Backtrack to count the subsets
+        backtrack(nums, 0, 0, maxOR, count);
 
-        // skip
-        dfs(nums, index + 1, currOr);
+        return count[0];
     }
 }
