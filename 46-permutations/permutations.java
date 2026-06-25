@@ -1,41 +1,42 @@
 class Solution {
-
-     Set<Integer> st = new HashSet<>();
     public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
 
-        solve(nums , result , new ArrayList<>());
+        List<List<Integer>> ans = new ArrayList<>();
 
-        return result;
-    } 
+        boolean[] visited = new boolean[nums.length];
+
+        findpermutation(nums, ans , visited, new ArrayList<>());
+
+        return ans;
+        
+    }
 
 
-    public void solve(int [] nums , List<List<Integer>> result , List<Integer> temp){
+    public void findpermutation(int[] nums , List<List<Integer>> ans , boolean[] visited , List<Integer> ds){
 
-       
-
-        if(temp.size()== nums.length){
-            result.add(new ArrayList<>(temp));
+        if(ds.size()== nums.length){
+            ans.add(new ArrayList<>(ds));
             return;
         }
 
-        for(int i = 0 ; i< nums.length ; i++){
 
-            if(!st.contains(nums[i])){
+        for(int i =0 ; i<nums.length ; i++){
 
-                temp.add(nums[i]);
-                st.add(nums[i]);
-
-                solve(nums , result , temp);
-
-
-               temp.remove(temp.size()-1);
-
-               st.remove(nums[i]);    
-            }
+        if(visited[i]){
+            continue;
         }
 
+        visited[i]= true;
+        ds.add(nums[i]);
+
+        findpermutation(nums, ans, visited , ds);
+
+        ds.remove(ds.size()-1);
+
+        visited[i] = false;
+
         
+        }
 
 
     }
