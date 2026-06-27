@@ -3,27 +3,27 @@ class Solution {
 
         List<List<Integer>> ans = new ArrayList<>();
 
-        List<Integer> result = new ArrayList<>();
-       
-         helper(nums, ans , result , 0 );
+        findsubsets(nums , ans , new ArrayList<>(), 0);
 
-         return ans;
+        return ans;
+
+        
     }
 
-    public void helper(int[] nums ,  List<List<Integer>> ans , List<Integer> result , int indx ){
+
+    public void findsubsets(int[] nums , List<List<Integer>> ans , List<Integer> ds , int indx){
 
         if(indx==nums.length){
-            ans.add(new ArrayList<>(result));
+            ans.add(new ArrayList<>(ds));
             return;
-
         }
 
-        result.add(nums[indx]); // take
+        ds.add(nums[indx]);
 
-        helper(nums, ans, result , indx+1); 
+        findsubsets(nums, ans , ds , indx+1);
 
-        result.remove(result.size()-1); // backtrack
+        ds.remove(ds.size()-1);
 
-        helper(nums, ans , result , indx+1); // not take
+        findsubsets(nums, ans , ds , indx+1);
     }
 }
