@@ -15,14 +15,14 @@ class Solution {
 
     public void finduniquesubsets(int[]nums , List<List<Integer>> ans , List<Integer> ds , int indx){
 
+        if(ans.contains(ds)){
+            return ;
+        }
+
      ans.add(new ArrayList<>(ds));
 
 
      for(int i = indx ; i< nums.length; i++){
-
-        if(i> indx && nums[i]== nums[i-1]){
-            continue;
-        }
 
         ds.add(nums[i]);
 
