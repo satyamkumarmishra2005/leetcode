@@ -1,57 +1,46 @@
 class Solution {
     public List<List<String>> partition(String s) {
+
+        List<List<String>> ans = new ArrayList<>();
+
+        backtrack(s,0,ans , new ArrayList<>());
+
+        return ans;
         
-
-        List<List<String>> result = new ArrayList<>();
-
-
-        backtrack(s, 0 , result , new ArrayList<>());
-
-
-        return result;
-
-
     }
 
 
-    public void backtrack(String s , int indx ,  List<List<String>> result , List<String> curr){
+    public void backtrack(String s , int indx , List<List<String>> ans , List<String> result){
 
-        if (indx == s.length()) {
-            result.add(new ArrayList<>(curr));
+        if(indx==s.length()){
+            ans.add(new ArrayList<>(result));
             return;
         }
 
+        for(int i=indx ; i<s.length(); i++){
 
-        for(int i = indx ; i<s.length() ; i++){
+            if(isPalindrome(s,indx,i)){
+                result.add(s.substring(indx,i+1));
 
-            if(ispalindrome(s, indx , i)){
+                backtrack(s,i+1,ans, result);
 
-                curr.add(s.substring(indx , i+1));
-
-                backtrack(s, i+1 , result , curr);
-
-                curr.remove(curr.size()-1);
-
+                result.remove(result.size()-1);
             }
         }
     }
 
 
-    public boolean ispalindrome(String s , int l , int r){
-         
-         while(l<r){
+    public boolean isPalindrome(String s , int l , int r){
 
+        while(l<r){
 
             if(s.charAt(l)!= s.charAt(r)){
                 return false;
             }
-
             l++;
             r--;
+        }
 
-         }
-
-
-         return true;
+        return true;
     }
 }
