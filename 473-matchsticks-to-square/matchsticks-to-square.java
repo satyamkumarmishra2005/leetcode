@@ -1,35 +1,57 @@
 class Solution {
     public boolean makesquare(int[] matchsticks) {
-        
-        int total = 0;
-        
-        for (int i : matchsticks) {
-            total += i;
-        }
-        
-        if (total % 4 != 0) return false; // if we cant make 4 equals sides then theres no way to make a square
-        // sort the array and place the largest sides first. required optimization to not TLE
-        Arrays.sort(matchsticks); 
-        return match(matchsticks, matchsticks.length - 1, 0, 0, 0, 0, total / 4);
-    }
-    
-    public boolean match(int[] matchsticks, int index, int top, int bottom, int left, int right, int target) {
-        
-        if (top == target && bottom == target && left == target && right == target) return true;
 
-        if (top > target || bottom > target || left > target || right > target) return false;
-                        
-        int val = matchsticks[index];
+        int perimeter=0;
+
+        for(int num: matchsticks){
+            perimeter = perimeter+ num;
+        }
+
+        if(perimeter%4!=0){
+            return false;
+        }
+
+        int side = perimeter/4;
+
+
+    boolean[] visited = new boolean[matchsticks.length];
+
+    return backtrack(matchsticks, side, 0,0,0, visited);
         
-        boolean t = match(matchsticks, index - 1, top + val, bottom, left, right, target);
-        if (t) return true;
-        boolean b = match(matchsticks, index - 1, top, bottom + val, left, right, target);
-        if (b) return true;
-        boolean l = match(matchsticks, index - 1, top, bottom, left + val, right, target);
-        if (l) return true;
-        boolean r = match(matchsticks, index - 1, top, bottom, left, right + val, target);
-        if (r) return true;
+    }
+
+    public boolean backtrack(int[] matchsticks, int side , int currside, int count, int indx, boolean[] visited){
+
         
+        if(count==4){
+            return true;
+        }
+
+        if(side==currside){
+            return backtrack(matchsticks, side , 0, count+1,0, visited);
+        }
+
+
+        for(int i= indx; i< matchsticks.length; i++ ){
+
+            if(visited[i]){
+                continue;
+            }
+
+            if(currside + matchsticks[i] > side){
+                continue;
+            }
+
+
+            visited[i] = true;
+
+            if(backtrack(matchsticks,side,currside+matchsticks[i],count,i+1,visited)){
+                return true;
+            }
+
+            visited[i]= false;
+        }
+
         return false;
     }
 }
