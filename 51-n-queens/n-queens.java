@@ -1,101 +1,124 @@
 class Solution {
-
-    private List<List<String>> result = new ArrayList<>();
-
     public List<List<String>> solveNQueens(int n) {
 
-        if(n==0){
-            return result;
+        List<List<String>> ans = new ArrayList<>();
+
+        char[][] board = new char[n][n];
+
+        for(int i=0; i< n ; i++){
+            Arrays.fill(board[i],'.');
         }
+
+
+        solve(0 , board, ans);
+
+
+        return ans;
         
-        List<String> board = new ArrayList<>();
-
-
-
-        for(int i = 0; i< n ; i++){
-
-        StringBuilder row = new StringBuilder();
-
-        for(int j =0; j< n ; j++){
-
-            row.append('.');
-
-        }
-
-
-        board.add(row.toString());
-        }
-
-
-
-        solve(board,0);
-
-
-        return result;
-
-
     }
 
 
-    private void solve(List<String> board , int row){
-
-        if(row==board.size()){
-            result.add(new ArrayList<>(board));
-
+    public void solve (int row , char[][] board , List<List<String>> ans){
+      
+        // All rows processed
+        if(row== board.length){
+            ans.add(construct(board));
             return;
         }
 
 
-         // Place one queen at every row and check before placing
-        // in every direction where there is a risk of being attacked
-        // i.e., up, diagonally because we are placing queens from
-        // the top row to the bottom row, so we need to check if we put a queen
-        // vertically up in some row or diagonally upwards in some row
+         // Try placing the queen in every column of this row
+
+         for(int col=0; col<board.length; col++){
+
+            if(issafe(row,col,board)){
+
+
+             // Choose
+                board[row][col]='Q';
+
+            //  Explore next
+                solve(row+1,board,ans);
+            
+            // Backtrack
+                board[row][col]='.';
+            }
+         }
+    }
 
 
 
-        for(int col =0; col< board.size(); col++){
 
-            if(isValid(board, row, col)){
+         public boolean issafe(int row , int col , char[][] board){
 
-                StringBuilder newrow = new StringBuilder(board.get(row));
+            int r;
+            int c;
 
-                newrow.setCharAt(col,'Q');
+            // check the same column upwards
 
-                board.set(row,newrow.toString());
+            r= row;
 
-                solve(board,row+1);
+            while(r>=0){
 
-                newrow.setCharAt(col,'.');
+                if(board[r][col]=='Q'){
+                    return false;
+                }
 
-                board.set(row,newrow.toString());
+                r--;
 
             }
 
+              // Check upper-left diagonal
+              r= row;
+              c= col;
 
-        }
+              while(r>=0 && c>=0){
 
-    }
+                if(board[r][c]=='Q'){
+                    return false;
+                }
+                r--;
+                c--;
 
-        private boolean isValid(List<String> board, int row, int col) {
-        // Look for up
-        for (int i = row; i >= 0; i--) {
-            if (board.get(i).charAt(col) == 'Q')
-                return false;
-        }
+              }
 
-        // Check left diagonal upwards
-        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-            if (board.get(i).charAt(j) == 'Q')
-                return false;
-        }
 
-        // Check right diagonal upwards
-        for (int i = row, j = col; i >= 0 && j < board.size(); i--, j++) {
-            if (board.get(i).charAt(j) == 'Q')
-                return false;
-        }
+                 // Check upper-right diagonal
+                 r= row;
+                 c= col;
 
-        return true;
-    }
+                 while(r>=0 && c< board.length){
+
+                    if(board[r][c]=='Q'){
+                        return false;
+                    }
+                    r--;
+                    c++;
+                 }
+
+                 return true;
+
+
+
+         }
+
+
+        // convert the board into List format 
+         public List<String> construct(char[][]board){
+
+            List<String> temp = new ArrayList<>();
+
+            for(char[] row: board){
+
+                temp.add(new String(row));
+            }
+
+            return temp;
+         }
+
+
+
+
+
+
     }
