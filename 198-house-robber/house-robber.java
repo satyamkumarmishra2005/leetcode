@@ -5,32 +5,25 @@ class Solution {
 
         int[] dp = new int[n];
 
-        Arrays.fill(dp,-1);
+        dp[0] = nums[0];
 
 
-        return solve(n-1, nums, dp);
+        for(int i = 1; i< nums.length ; i++){
+
+            int pick = nums[i];
+
+            if(i>1){
+                pick= pick + dp[i-2];
+            }
+
+            int notpick = dp[i-1];
+
+
+            dp[i] = Math.max(pick, notpick);
+        }
+
+
+        return dp[n-1];
         
-    }
-
-    public int solve(int indx , int[]nums , int[]dp){
-
-        if(indx<0){
-            return 0;
-        }
-
-        if(indx==0){
-            return nums[indx];
-        }
-
-        if(dp[indx]!= -1){
-            return dp[indx];
-        }
-
-        int pick = nums[indx] + solve(indx-2, nums , dp);
-
-        int notpick = solve(indx-1, nums, dp);
-
-
-        return dp[indx] = Math.max(pick, notpick);
     }
 }
