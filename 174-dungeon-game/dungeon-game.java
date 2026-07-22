@@ -1,30 +1,37 @@
 class Solution {
-  public int calculateMinimumHP(int[][] dungeon) {
-    if (dungeon == null || dungeon.length == 0 || dungeon[0].length == 0) return 0;
-    
-    int m = dungeon.length;
-    int n = dungeon[0].length;
-    
-    int[][] health = new int[m][n];
+    public int calculateMinimumHP(int[][] dungeon) {
 
-    health[m - 1][n - 1] = Math.max(1 - dungeon[m - 1][n - 1], 1);
+        int m = dungeon.length;
 
-    for (int i = m - 2; i >= 0; i--) {            
-        health[i][n - 1] = Math.max(health[i + 1][n - 1] - dungeon[i][n - 1], 1);
-    }
+        int n = dungeon[0].length;
 
-    for (int j = n - 2; j >= 0; j--) {
-        health[m - 1][j] = Math.max(health[m - 1][j + 1] - dungeon[m - 1][j], 1);
-    }
 
-    for (int i = m - 2; i >= 0; i--) {
-        for (int j = n - 2; j >= 0; j--) {
-            int down = Math.max(health[i + 1][j] - dungeon[i][j], 1);
-            int right = Math.max(health[i][j + 1] - dungeon[i][j], 1);
-            health[i][j] = Math.min(right, down);
+        int [][] dp = new int[m][n];
+
+        for(int[] rows: dp){
+            Arrays.fill(rows, -1);
         }
+
+
+        return solve(dungeon , dp , 0, 0, m , n);
+        
     }
 
-    return health[0][0];
-}
+
+   public int solve( int[][] dungeon , int[][]t, int i, int j, int m , int n) {
+        if (i >= m || j >= n)
+            return (int)1e9;
+
+        if (t[i][j] != -1)
+            return t[i][j];
+
+        if (i == m - 1 && j == n - 1)
+            return t[i][j] = (dungeon[i][j] > 0 ? 1 : Math.abs(dungeon[i][j]) + 1);
+
+        int down  = solve( dungeon, t, i + 1, j,m,n);
+        int right = solve( dungeon, t, i, j + 1,m,n);
+
+        int res = Math.min(down, right) - dungeon[i][j];
+        return t[i][j] = (res > 0 ? res : 1);
+    }
 }
