@@ -1,53 +1,58 @@
 class Solution {
     public boolean canPartition(int[] nums) {
+        int sum =0;
+
         int n = nums.length;
-        int totalsum = 0;
 
-    for(int i =0 ; i< n ; i++){
-
-    
-     totalsum += nums[i];
-    }
-
-    if(totalsum%2==1){
-        return false;
-    }
-    else{
-        int k = totalsum/2;
-
-        int [][] dp = new int[n][k+1];
-
-        for(int [] rows : dp ){
-            Arrays.fill(rows , -1);
+        for(int i=0; i<n ; i++){
+            sum = sum + nums[i];
         }
 
-        return subsetpartition(n-1 , k , nums , dp);
-    }
-}
+        if(sum%2==1){
+            return false;
+        }
+        else{
+
+            int k = sum/2;
+
+            int[][] dp = new int[n][k+1];
 
 
-static boolean subsetpartition(int index , int target , int [] nums , int[][] dp){
-    if(target==0){
-        return true;
-    }
+            for(int[] rows: dp){
+                Arrays.fill(rows,-1);
+            }
 
-    if(index==0){
-        return nums[0] == target;
-    }
 
-    if(dp[index][target] != -1){
-        return dp[index][target] == 0 ? false : true;
-    }
-   boolean notTaken = subsetpartition(index-1 , target , nums , dp);
-     boolean taken = false;
-        if (nums[index] <= target)
-            taken = subsetpartition(index - 1, target - nums[index], nums, dp);
-
-        // Memoize the result and return true if either choice results in a valid subset
-        dp[index][target] = notTaken || taken ? 1 : 0;
-        return notTaken || taken;
+            return solve(nums, dp , n-1, k);
+        
+        }
     }
 
+        public boolean solve(int[]nums , int[][]dp , int indx , int target){
+
+            if(target==0){
+                return true;
+            }
+
+            if(indx==0){
+                return nums[0]==target;
+            }
+
+            if(dp[indx][target]!=-1){
+                return dp[indx][target]==1;
+            }
+
+            boolean nottaken = solve(nums, dp, indx-1, target);
+
+            boolean taken = false;
+
+            if(nums[indx]<= target){
+                taken = solve(nums, dp , indx-1, target-nums[indx]);
+            }
+
+            dp[indx][target] = (nottaken || taken)?1:0;
 
 
-}
+            return nottaken || taken;
+        }
+    }
