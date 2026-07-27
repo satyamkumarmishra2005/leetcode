@@ -1,73 +1,40 @@
 class Solution {
-    // public int longestCommonSubsequence(String text1, String text2) {
-    //     // Memoaization
-    //     int n = text1.length();
-    //     int m = text2.length();
+    public int longestCommonSubsequence(String text1, String text2) {
 
-    //     int[][] dp = new int[n][m];
-
-    //     for(int [] rows : dp){
-    //         Arrays.fill(rows,-1);
-    //     }
-
-    //     return maxsubsequence(text1,text2 , n-1 ,m-1 , dp);
-
-        
-    // }
-
-    // static int maxsubsequence(String text1 , String text2 , int index1 , int index2 , int[][] dp){
-    //     if(index1 < 0 || index2 < 0){
-    //         return 0;
-    //     }
-
-    //     if(dp[index1][index2]!= -1){
-    //         return dp[index1][index2];
-    //     }
-
-
-    //     if (text1.charAt(index1) == text2.charAt(index2)){
-    //     return   dp[index1][index2] =  1 + maxsubsequence(text1 , text2 , index1-1 , index2-1 , dp);
-    //     }
-
-    //     else{
-    //         return dp[index1][index2] = Math.max(maxsubsequence(text1 , text2 , index1-1 , index2 , dp), maxsubsequence(text1 , text2 , index1 , index2-1 , dp));
-    //     }
-    // }
-
-    // Tabulation
-
-    public int longestCommonSubsequence(String text1, String text2){
         int n = text1.length();
+
         int m = text2.length();
 
-        int [][] dp = new int[n+1][m+1];
+        int[][] dp = new int[n][m];
 
-        for(int [] rows : dp){
-            Arrays.fill(rows,-1);
+
+        for(int[]row:dp){
+            Arrays.fill(row,-1);
         }
 
-        for(int i = 0 ; i<= n ; i++){
-            dp[i][0] = 0;
-        }
+
+        return solve(text1,text2, n-1, m-1, dp);
         
-        for(int j =0 ; j<=m ; j++){
-            dp[0][j] = 0;
+    }
+
+    public int solve(String text1, String text2, int indx1, int indx2, int[][]dp){
+
+        if(indx1<0 || indx2<0 ){
+            return 0;
         }
 
-        for(int index1 = 1; index1 <= n ; index1++){
-            for(int index2 = 1; index2 <= m ; index2++){
-
-                if(text1.charAt(index1-1)== text2.charAt(index2-1)){
-                   dp[index1][index2] = 1 + dp[index1 - 1][index2 - 1];
-                }
-
-                else{
-                     dp[index1][index2] = Math.max(dp[index1 - 1][index2], dp[index1][index2 - 1]);
-                }
-            }
+        if(dp[indx1][indx2]!=-1){
+            return dp[indx1][indx2];
         }
 
-          return dp[n][m];
+        if(text1.charAt(indx1)== text2.charAt(indx2)){
+            return dp[indx1][indx2] = 1+ solve(text1,text2,indx1-1,indx2-1,dp);
+        }
+
+        else{
+            return dp[indx1][indx2]= Math.max(solve(text1,text2,indx1-1,indx2,dp), solve(text1,text2,indx1,indx2-1,dp));
+        }
+
 
     }
 }
