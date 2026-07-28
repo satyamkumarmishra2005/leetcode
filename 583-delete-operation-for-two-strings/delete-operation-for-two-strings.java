@@ -3,42 +3,37 @@ class Solution {
         int n = word1.length();
         int m = word2.length();
 
-        int k = lcs(word1 , word2);
+        int[][] dp = new int[n][m];
+
+        for(int[]row: dp){
+            Arrays.fill(row,-1);
+        }
+
+        int k = solve(word1 , word2,n-1,m-1,dp);
 
         return (n-k) + (m-k);
 
 
     }
 
-   static int lcs(String s1, String s2) {
-        int n = s1.length();
-        int m = s2.length();
+ public int solve(String text1, String text2, int indx1, int indx2, int[][]dp){
 
-        // Create a 2D array to store the LCS lengths
-        int dp[][] = new int[n + 1][m + 1];
-
-        // Initialize the dp array with -1
-        for (int rows[] : dp)
-            Arrays.fill(rows, -1);
-
-        // Initialize the first row and first column with 0
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = 0;
-        }
-        for (int i = 0; i <= m; i++) {
-            dp[0][i] = 0;
+        if(indx1<0 || indx2<0 ){
+            return 0;
         }
 
-        // Fill the dp array using a bottom-up approach
-        for (int ind1 = 1; ind1 <= n; ind1++) {
-            for (int ind2 = 1; ind2 <= m; ind2++) {
-                if (s1.charAt(ind1 - 1) == s2.charAt(ind2 - 1))
-                    dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
-                else
-                    dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
-            }
+        if(dp[indx1][indx2]!=-1){
+            return dp[indx1][indx2];
         }
 
-        return dp[n][m];
+        if(text1.charAt(indx1)== text2.charAt(indx2)){
+            return dp[indx1][indx2] = 1+ solve(text1,text2,indx1-1,indx2-1,dp);
+        }
+
+        else{
+            return dp[indx1][indx2]= Math.max(solve(text1,text2,indx1-1,indx2,dp), solve(text1,text2,indx1,indx2-1,dp));
+        }
+
+
     }
 }
