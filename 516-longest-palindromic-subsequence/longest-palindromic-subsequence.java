@@ -1,41 +1,34 @@
 class Solution {
     public int longestPalindromeSubseq(String s) {
-        // Tabulation
-        String reversed = new StringBuilder(s).reverse().toString();
-        return lcs(s,reversed);
+
+        String reverse = new StringBuilder(s).reverse().toString();
+
+        int n = s.length();
+        int m = reverse.length();
+
+        int[][] dp = new int[n][m];
+
+
+        for(int[]row: dp){
+            Arrays.fill(row,-1);
+        }
+        return solve(s,reverse,dp,n-1,m-1);
     }
 
-     static int lcs(String s , String s1){
-        int n = s.length();
-        int m = s1.length();
-         int [][] dp = new int[n+1][m+1];
+    public int solve(String s, String reverse, int[][]dp , int indx1, int indx2){
 
-        for(int [] rows : dp){
-            Arrays.fill(rows,-1);
+        if(indx1<0 || indx2<0){
+            return 0;
         }
 
-        for(int i = 0 ; i<= n ; i++){
-            dp[i][0] = 0;
-        }
-        
-        for(int j =0 ; j<=m ; j++){
-            dp[0][j] = 0;
+        if(dp[indx1][indx2]!=-1){
+            return dp[indx1][indx2];
         }
 
-        for(int index1 = 1; index1 <= n ; index1++){
-            for(int index2 = 1; index2 <= m ; index2++){
-
-                if(s.charAt(index1-1)== s1.charAt(index2-1)){
-                   dp[index1][index2] = 1 + dp[index1 - 1][index2 - 1];
-                }
-
-                else{
-                     dp[index1][index2] = Math.max(dp[index1 - 1][index2], dp[index1][index2 - 1]);
-                }
-            }
+        if(s.charAt(indx1)==reverse.charAt(indx2)){
+         return dp[indx1][indx2] = 1+ solve(s,reverse,dp,indx1-1,indx2-1);
         }
 
-          return dp[n][m];
-
-     } 
+        return dp[indx1][indx2] = Math.max(solve(s,reverse,dp,indx1-1,indx2), solve(s,reverse,dp,indx1,indx2-1));
+    }
 }
