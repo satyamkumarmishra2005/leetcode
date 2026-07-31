@@ -2,41 +2,31 @@ class Solution {
     public int numDistinct(String s, String t) {
 
         int n = s.length();
-        
         int m = t.length();
 
-        int[][] dp = new int[n][m];
+        int[][] dp = new int[n+1][m+1];
 
-        for(int[]row:dp){
-            Arrays.fill(row,-1);
+        for(int i =0; i<=n ; i++){
+            dp[i][0] = 1;
         }
 
+        for(int j=1; j<=m ; j++){
+            dp[0][j] = 0;
+        }
 
+        for(int i = 1; i<= n ; i++){
+            for(int j = 1; j<=m ; j++){
 
-        return solve(s,t,n-1,m-1,dp);
+                if (s.charAt(i - 1) == t.charAt(j - 1)){
+                    dp[i][j] = dp[i-1][j-1] + dp[i-1][j];
+                }
+                else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
 
-
+        return dp[n][m];
         
-    }
-
-    public int solve(String s, String t, int indx1, int indx2, int[][]dp){
-
-        if(indx2<0){
-            return 1;
-        }
-
-        if(indx1<0){
-            return 0;
-        }
-
-        if(dp[indx1][indx2]!=-1){
-            return dp[indx1][indx2];
-        }
-
-        if(s.charAt(indx1)== t.charAt(indx2)){
-            return dp[indx1][indx2] = solve(s,t,indx1-1,indx2-1,dp) + solve(s,t,indx1-1, indx2, dp);
-        }
-
-        return dp[indx1][indx2] = solve(s,t,indx1-1,indx2,dp);
     }
 }
