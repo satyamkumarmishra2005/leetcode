@@ -1,82 +1,49 @@
 class Solution {
-    //Memoaization
-    // public int minDistance(String word1, String word2) {
-
-    //     int n = word1.length();
-    //     int m = word2.length();
-
-    //     int[][] dp = new int[n][m];
-
-    //     for(int[] rows : dp){
-    //         Arrays.fill(rows,-1);
-    //     }
-
-    //     return editdistance(word1,word2 , n-1 , m-1 , dp);
-        
-    // }
-
-    // static int editdistance(String word1 , String word2 , int i , int j , int[][]dp){
-    //     if(i<0){
-    //         return j+1;
-    //     }
-
-    //     if(j<0){
-    //         return i+1;
-    //     }
-
-    //     if(dp[i][j]!= -1){
-    //         return dp[i][j];
-    //     }
-
-    //     if(word1.charAt(i)==word2.charAt(j)){
-    //     return dp[i][j] = editdistance(word1 , word2 , i-1 , j-1 , dp);
-    //     }
-
-    //     else{
-    //         return dp[i][j] = 1 + Math.min(editdistance(word1, word2, i - 1, j - 1, dp),
-    //                 Math.min(editdistance(word1, word2, i - 1, j, dp), editdistance(word1, word2, i, j - 1, dp)));
-    //     }
-
-
-    // }
-
-// Tabulation
     public int minDistance(String word1, String word2) {
 
         int n = word1.length();
         int m = word2.length();
 
-        int[][] dp = new int[n+1][m+1];
+        int[][] dp = new int[n][m];
 
-        for(int[] rows : dp){
-            Arrays.fill(rows,-1);
+        for(int[]row:dp){
+            Arrays.fill(row,-1);
+
         }
 
-        return editdistance(word1,word2 , n , m , dp);
+
+        return solve(word1,word2,n-1,m-1,dp);
+
+
         
     }
 
-    static int editdistance(String word1 , String word2 , int i , int j , int[][]dp){
-        if(i==0){
-            return j;
+
+    public int solve(String word1, String word2, int indx1, int indx2 , int[][]dp){
+
+        if(indx1<0){
+            return indx2+1;
         }
 
-        if(j==0){
-            return i;
+        if(indx2<0){
+            return indx1+1;
         }
 
-        if(dp[i][j]!= -1){
-            return dp[i][j];
+        if(dp[indx1][indx2]!=-1){
+            return dp[indx1][indx2];
         }
 
-        if(word1.charAt(i-1)==word2.charAt(j-1)){
-        return dp[i][j] = editdistance(word1 , word2 , i-1 , j-1 , dp);
+
+
+        if(word1.charAt(indx1)== word2.charAt(indx2)){
+            return dp[indx1][indx2] = solve(word1,word2,indx1-1,indx2-1, dp);
         }
 
         else{
-            return dp[i][j] = 1 + Math.min(editdistance(word1, word2, i - 1, j - 1, dp),
-                    Math.min(editdistance(word1, word2, i - 1, j, dp), editdistance(word1, word2, i, j - 1, dp)));
+            return dp[indx1][indx2] = 1 + Math.min(solve(word1, word2, indx1 - 1, indx2 - 1, dp),
+                    Math.min(solve(word1, word2, indx1 - 1, indx2, dp), solve(word1, word2, indx1, indx2 - 1, dp)));
         }
+
 
 
     }
