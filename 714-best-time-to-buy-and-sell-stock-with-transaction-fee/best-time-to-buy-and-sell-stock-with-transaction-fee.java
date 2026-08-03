@@ -1,43 +1,50 @@
 class Solution {
     public int maxProfit(int[] prices, int fee) {
-          int n = prices.length;
-        int [][] dp = new int [n][2];
+        
+  int n = prices.length;
 
-        for(int [] rows : dp){
-            Arrays.fill(rows,-1);
+        int[][] dp = new int[n][2];
+
+        for(int[]row: dp){
+            Arrays.fill(row,-1);
         }
 
-        return solve(0 ,1, prices , dp , n , fee);
-
+        return solve(prices, 0, dp, 1, n, fee);
+        
     }
 
-    static int solve(int index , int buy , int[] prices , int[][]dp , int n , int fee){
-        if(index==n){
+    public int solve(int[]prices, int indx , int[][]dp, int buy, int n , int fee){
+
+        if(indx==n){
             return 0;
         }
 
-        if(dp[index][buy]!= -1){
-            return dp[index][buy];
+        if(dp[indx][buy]!=-1){
+            return dp[indx][buy];
+
         }
 
-        int profit = 0;
+        int profit;
 
-        if(buy==1){ // buy 
-        int op1 = - prices[index] + solve(index+1 , 0 , prices , dp , n, fee); // buy
-        int op2 = solve(index+1 , 1 , prices , dp , n, fee); // skip
+        if(buy==1){
 
-        profit = Math.max(op1 , op2);
-     
+            profit = Math.max( 0 + solve(prices, indx+1,dp,1,n,fee) // skip buy
+            , -prices[indx] + solve(prices,indx+1,dp,0,n,fee)); // buy
+
         }
 
-        else{ // sell
-            int op1 = prices[index] - fee + solve(index+1 , 1 , prices , dp , n, fee );
-            int op2 = solve(index+1 , 0 , prices , dp , n, fee);// skip
+        else{
 
-            profit = Math.max(op1 , op2);
+            profit = Math.max(0+ solve(prices, indx+1, dp ,0, n,fee), // skip sell
+            
+            prices[indx]-fee+ solve(prices, indx+1, dp ,1,n,fee)); // sell 
         }
 
-        return dp[index][buy] = profit;
-    
-}
+
+        dp[indx][buy] = profit;
+
+
+        return profit;
+
+    }
 }
