@@ -1,42 +1,51 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int n = prices.length;
-        int [][] dp = new int [n][2];
 
-        for(int [] rows : dp){
-            Arrays.fill(rows,-1);
-        }
+    int n = prices.length;
 
-        return solve(0 ,1, prices , dp , n );
+    int[][] dp = new int[n][2];
 
+
+    for(int [] row : dp){
+        Arrays.fill(row,-1);
     }
 
-    static int solve(int index , int buy , int[] prices , int[][]dp , int n){
-        if(index>=n){
+   return solve(prices, 0, dp, 1, n);
+        
+    }
+
+    public int solve(int[]prices, int indx , int[][]dp, int buy, int n){
+
+        if(indx>=n){
             return 0;
         }
 
-        if(dp[index][buy]!= -1){
-            return dp[index][buy];
+        if(dp[indx][buy]!=-1){
+            return dp[indx][buy];
+
         }
 
-        int profit = 0;
+        int profit;
 
-        if(buy==1){ // buy 
-        int op1 = - prices[index] + solve(index+1 , 0 , prices , dp , n); // buy
-        int op2 = solve(index+1 , 1 , prices , dp , n); // skip
+        if(buy==1){
 
-        profit = Math.max(op1 , op2);
-     
+            profit = Math.max( 0 + solve(prices, indx+1,dp,1,n) // skip buy
+            , -prices[indx] + solve(prices,indx+1,dp,0,n)); // buy
+
         }
 
-        else{ // sell
-            int op1 = prices[index] + solve(index+2 , 1 , prices , dp , n );
-            int op2 = solve(index+1 , 0 , prices , dp , n);// skip
+        else{
 
-            profit = Math.max(op1 , op2);
+            profit = Math.max(0+ solve(prices, indx+1, dp ,0, n), // skip sell
+            
+            prices[indx]+ solve(prices, indx+2, dp ,1,n)); // sell 
         }
 
-        return dp[index][buy] = profit;
+
+        dp[indx][buy] = profit;
+
+
+        return profit;
+
     }
 }
