@@ -1,106 +1,72 @@
+class BitTrie{
+    BitTrie bit[];
+    int cnt;
+    BitTrie(){
+        cnt = 0;
+        bit = new BitTrie[2];
+    }
+    public void addNum(int n){
+        BitTrie curr = this;
+        for(int i = 30; i >= 0; i--){
+            int r = (n&(1<<i)) == 0? 0 : 1;
+            if(curr.bit[r] == null)    curr.bit[r] = new BitTrie();
+            curr = curr.bit[r];
+            curr.cnt++;
+        }
+    }
+    public void removeNum(int n){
+        BitTrie curr = this;
+        for(int i = 30; i >= 0; i--){
+            int r = (n&(1<<i)) == 0? 0 : 1;
+            curr = curr.bit[r];
+            curr.cnt--;
+        }
+    }
+}
 class Solution {
-    class Trie{
-        int val;
-        Trie[] child;
-        int ct;
-
-        public Trie(){
-            this.val = -1;
-            this.child = new Trie[2];
-            this.ct = 0;
-        }
-    }
-
-    Trie root;
-
-    private void add(int val){
-        Trie node = root;
-
-        for(int i = 31;i >= 0;i--){
-            int bit = (val >> i) & 1;
-
-            if(node.child[bit] == null){
-                node.child[bit] = new Trie();
-            }
- 
-            node = node.child[bit];
-            node.ct++;
-        }
-
-        node.val = val;
-    }
-
-    private void remove(int val){
-        Trie node = root;
-    
-        for(int i = 31; i >= 0; i--){
-            int bit = (val >> i) & 1;
-
-            node.child[bit].ct--;
-
-            if(node.child[bit].ct == 0){
-                node.child[bit] = null;
-                break;
-            }
-            
-            node = node.child[bit];
-        }
-    }
-
-    private int getMax(int val){
-        Trie node = root;
-
-        for(int i = 31;i >= 0;i--){
-            int bit = (val >> i) & 1;
-            int invBit = (bit == 0) ? 1 : 0;
-
-            if(node.child[invBit] != null){
-                node = node.child[invBit];
-            }
-            else{
-                node = node.child[bit];
-            }
-        }
-
-        return node.val;
-    }
-
-    private void dfs(HashMap<Integer, List<int[]>> QueryMap, HashMap<Integer, List<Integer>> adj, int[] ans, int node){
-        add(node);
-
-        for(int[] it : QueryMap.getOrDefault(node, new ArrayList<>())){
-            ans[it[0]] = it[1] ^ getMax(it[1]);
-        }
-
-        for(int it : adj.getOrDefault(node, new ArrayList<>())){
-            dfs(QueryMap, adj, ans, it);
-        }
-
-        remove(node);
-    }
-
     public int[] maxGeneticDifference(int[] parents, int[][] queries) {
-        root = new Trie();
-
-        HashMap<Integer, List<int[]>> QueryMap = new HashMap<>();
-        HashMap<Integer, List<Integer>> adj = new HashMap<>();
-
-        for(int i = 0;i < parents.length;i++){
-            adj.computeIfAbsent(parents[i], k -> new ArrayList<>()).add(i);
+        Map<Integer, List<int []>> vals = new HashMap<>();
+        for(int i = 0; i < queries.length; i++){
+            int q[] = queries[i];
+            if(!vals.containsKey(q[0]))  vals.put(q[0], new ArrayList<>());
+            vals.get(q[0]).add(new int[]{q[1], i});
         }
-
-        for(int i = 0;i < queries.length;i++){
-            QueryMap.computeIfAbsent(queries[i][0], k-> new ArrayList<>()).add(new int[]{i, queries[i][1]});
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int root = -1;
+        for(int i = 0; i < parents.length; i++){
+            if(parents[i] == -1)    root = i;
+            if(!graph.containsKey(parents[i]))   graph.put(parents[i], new ArrayList<>());
+            graph.get(parents[i]).add(i);
         }
-
-        int[] ans = new int[queries.length];
-
-        for(int i = 0;i < parents.length;i++){
-            if(parents[i] == -1){
-                dfs(QueryMap, adj, ans, i);
+        BitTrie bt = new BitTrie();
+        int res[] = new int[queries.length];
+        dfs(bt, vals, root, graph, res);
+        return res;
+    }
+    private void dfs(BitTrie bt, Map<Integer, List<int []>> vals, int curr, Map<Integer, List<Integer>> graph, int res[]){
+        bt.addNum(curr);
+        if(vals.containsKey(curr)){
+            for(int val[]: vals.get(curr)){
+                res[val[1]] = getMaxXor(bt, val[0]);
             }
         }
-
-        return ans;
+        if(graph.containsKey(curr)){
+            for(int child: graph.get(curr)){
+                dfs(bt, vals, child, graph, res);
+            }
+        }
+        bt.removeNum(curr);
+    }
+    private int getMaxXor(BitTrie bt, int val){
+        BitTrie curr = bt;
+        int num = 0;
+        for(int i = 30; i >= 0; i--){
+            int r = 1 - ((val&(1<<i)) == 0 ? 0 : 1);
+            if(curr.bit[r] != null && curr.bit[r].cnt > 0){
+                curr = curr.bit[r];
+                num |= (1<<i);
+            }else   curr = curr.bit[1 - r];
+        }
+        return num;
     }
 }
